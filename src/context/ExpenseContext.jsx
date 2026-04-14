@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useMemo } from 'react';
 import { expenseReducer, initialState } from './reducer';
 import { calculateSummary } from '../utils/helpers';
+import { expenseCategories, incomeCategories } from '../data/categories';
 
 const ExpenseContext = createContext();
 
@@ -19,6 +20,8 @@ export function ExpenseProvider({ children }) {
         currency: state.currency,
         dispatch,
         summary,
+        expenseCategories,
+        incomeCategories,
       }}
     >
       {children}

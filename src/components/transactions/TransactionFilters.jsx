@@ -1,9 +1,10 @@
-import { expenseCategories, incomeCategories } from '../../data/categories';
+import { useExpense } from '../../context/ExpenseContext';
 
 export default function TransactionFilters({ filters, setFilters }) {
+  const { expenseCategories, incomeCategories } = useExpense();
   const allCategories = [...new Set([...expenseCategories, ...incomeCategories])];
 
-  const selectClass = "border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm bg-white dark:bg-gray-800 dark:text-white";
+  const selectClass = "border border-border rounded px-3 py-1.5 text-sm bg-card text-foreground outline-none focus:border-primary";
 
   return (
     <div className="flex flex-wrap gap-2 mb-4">
@@ -12,7 +13,7 @@ export default function TransactionFilters({ filters, setFilters }) {
         placeholder="Search..."
         value={filters.search}
         onChange={e => setFilters({ ...filters, search: e.target.value })}
-        className="border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm flex-1 min-w-[150px] outline-none focus:border-blue-400 bg-white dark:bg-gray-800 dark:text-white"
+        className="border border-border rounded px-3 py-1.5 text-sm flex-1 min-w-[150px] outline-none focus:border-primary bg-card text-foreground"
       />
       <select
         value={filters.type}

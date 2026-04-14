@@ -1,4 +1,4 @@
-export const expenseCategories = [
+export const defaultExpenseCategories = [
   'Food',
   'Transport',
   'Shopping',
@@ -9,10 +9,13 @@ export const expenseCategories = [
   'Other',
 ];
 
-export const incomeCategories = [
+export const defaultIncomeCategories = [
   'Salary',
   'Freelance',
   'Investment',
   'Gift',
   'Other',
 ];
+
+export const expenseCategories = defaultExpenseCategories;
+export const incomeCategories = defaultIncomeCategories;

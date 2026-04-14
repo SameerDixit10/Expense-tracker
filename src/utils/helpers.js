@@ -19,6 +19,15 @@ export function formatCurrency(amount, currency = 'USD') {
   return symbol + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
+export function formatDateDDMMYY(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yy = String(d.getFullYear()).slice(-2);
+  return `${dd}-${mm}-${yy}`;
+}
+
 export function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }

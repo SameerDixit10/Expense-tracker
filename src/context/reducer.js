@@ -1,5 +1,30 @@
 export const initialState = {
-  transactions: JSON.parse(localStorage.getItem('transactions') || '[]'),
+  transactions: JSON.parse(localStorage.getItem('transactions') || JSON.stringify([
+    {
+      id: '1',
+      type: 'expense',
+      amount: 50,
+      category: 'Food',
+      date: '2024-01-15',
+      note: 'Lunch at restaurant'
+    },
+    {
+      id: '2',
+      type: 'income',
+      amount: 2000,
+      category: 'Salary',
+      date: '2024-01-01',
+      note: 'Monthly salary'
+    },
+    {
+      id: '3',
+      type: 'expense',
+      amount: 25,
+      category: 'Transportation',
+      date: '2024-01-14',
+      note: 'Bus fare'
+    }
+  ])),
   budgets: JSON.parse(localStorage.getItem('budgets') || '{}'),
   currency: localStorage.getItem('currency') || 'USD',
 };
@@ -31,19 +56,21 @@ export function expenseReducer(state, action) {
     case 'LOAD_SAMPLE':
       newState = { ...state, transactions: action.payload };
       break;
-    case 'SET_BUDGET':
+    case 'SET_BUDGET': {
       newState = {
         ...state,
         budgets: { ...state.budgets, [action.payload.category]: action.payload.amount },
       };
       localStorage.setItem('budgets', JSON.stringify(newState.budgets));
       return newState;
-    case 'REMOVE_BUDGET':
+    }
+    case 'REMOVE_BUDGET': {
       const updatedBudgets = { ...state.budgets };
       delete updatedBudgets[action.payload];
       newState = { ...state, budgets: updatedBudgets };
       localStorage.setItem('budgets', JSON.stringify(newState.budgets));
       return newState;
+    }
     case 'SET_CURRENCY':
       newState = { ...state, currency: action.payload };
       localStorage.setItem('currency', action.payload);

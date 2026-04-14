@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import Modal from './ui/Modal';
 import Button from './ui/Button';
-import { expenseCategories, incomeCategories } from '../data/categories';
 import { useExpense } from '../context/ExpenseContext';
 import { generateId } from '../utils/helpers';
 import { toast } from './ui/Toast';
 
 export default function TransactionModal({ isOpen, onClose, editTransaction }) {
-  const { dispatch } = useExpense();
+  const { dispatch, expenseCategories, incomeCategories } = useExpense();
   const [type, setType] = useState('expense');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
@@ -17,20 +16,23 @@ export default function TransactionModal({ isOpen, onClose, editTransaction }) {
 
   useEffect(() => {
     if (editTransaction) {
-      setType(editTransaction.type);
-      setAmount(editTransaction.amount.toString());
-      setCategory(editTransaction.category);
-      setDate(editTransaction.date);
-      setNote(editTransaction.note || '');
+      setTimeout(() => {
+        setType(editTransaction.type);
+        setAmount(editTransaction.amount.toString());
+        setCategory(editTransaction.category);
+        setDate(editTransaction.date);
+        setNote(editTransaction.note || '');
+      }, 0);
     } else {
-      setType('expense');
-      setAmount('');
-      setCategory('');
-      setDate(new Date().toISOString().split('T')[0]);
-      setNote('');
+      setTimeout(() => {
+        setType('expense');
+        setAmount('');
+        setCategory('');
+        setDate(new Date().toISOString().split('T')[0]);
+        setNote('');
+      }, 0);
     }
-    setErrors({});
-  }, [editTransaction, isOpen]);
+  }, [editTransaction]);
 
   const categories = type === 'expense' ? expenseCategories : incomeCategories;
 

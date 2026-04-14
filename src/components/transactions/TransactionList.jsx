@@ -1,11 +1,11 @@
 import TransactionItem from './TransactionItem';
-import { MdInbox } from 'react-icons/md';
+import { Inbox } from 'lucide-react';
 
 export default function TransactionList({ transactions, onEdit, onDelete }) {
   if (transactions.length === 0) {
     return (
-      <div className="text-center py-10 text-gray-400">
-        <MdInbox className="text-4xl mb-2 mx-auto" />
+      <div className="text-center py-10 text-muted-foreground">
+        <Inbox size={40} className="mx-auto mb-2 opacity-50" />
         <p>No transactions found</p>
       </div>
     );

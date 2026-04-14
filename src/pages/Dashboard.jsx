@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useExpense } from '../context/ExpenseContext';
-import { formatCurrency, generateId, getBudgetStatus } from '../utils/helpers';
+import { formatCurrency, formatDateDDMMYY, generateId, getBudgetStatus } from '../utils/helpers';
 import TransactionModal from '../components/TransactionModal';
 import FAB from '../components/ui/FAB';
-import { MdAccountBalanceWallet, MdTrendingUp, MdTrendingDown, MdWarning, MdEmojiEvents, MdInbox, MdArrowUpward, MdArrowDownward } from 'react-icons/md';
+import { Wallet, TrendingUp, TrendingDown, Trophy, AlertTriangle, AlertCircle, ArrowUpRight, ArrowDownRight, Inbox } from 'lucide-react';
 
 export default function Dashboard() {
   const { transactions, summary, currency, budgets, dispatch } = useExpense();
@@ -26,12 +26,11 @@ export default function Dashboard() {
   };
 
   const cards = [
-    { label: 'Balance', value: formatCurrency(summary.balance, currency), accent: 'border-l-4 border-l-primary', icon: MdAccountBalanceWallet },
-    { label: 'Income', value: formatCurrency(summary.totalIncome, currency), accent: 'border-l-4 border-l-income', icon: MdTrendingUp },
-    { label: 'Expenses', value: formatCurrency(summary.totalExpense, currency), accent: 'border-l-4 border-l-expense', icon: MdTrendingDown },
+    { label: 'Balance', value: formatCurrency(summary.balance, currency), accent: 'border-l-4 border-l-primary', icon: Wallet },
+    { label: 'Income', value: formatCurrency(summary.totalIncome, currency), accent: 'border-l-4 border-l-income', icon: TrendingUp },
+    { label: 'Expenses', value: formatCurrency(summary.totalExpense, currency), accent: 'border-l-4 border-l-expense', icon: TrendingDown },
   ];
 
-  // Budget alerts
   const categoryTotals = summary.categoryTotals || {};
   const alerts = Object.entries(budgets)
     .map(([cat, limit]) => {
@@ -42,7 +41,7 @@ export default function Dashboard() {
     .filter(Boolean);
 
   return (
-    <div className="max-w-4xl">
+    <div className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
@@ -55,7 +54,6 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Budget alerts */}
       {alerts.length > 0 && (
         <div className="space-y-2 mb-4">
           {alerts.map(a => (
@@ -64,7 +62,7 @@ export default function Dashboard() {
                 ? 'bg-expense/10 border-expense/30 text-expense'
                 : 'bg-yellow-500/10 border-yellow-500/30 text-yellow-600'
             }`}>
-              <MdWarning className="text-lg" />
+              {a.status.level === 'over' ? <AlertCircle size={16} /> : <AlertTriangle size={16} />}
               <span className="font-medium">{a.cat}:</span>
               <span>{formatCurrency(a.spent, currency)} / {formatCurrency(a.limit, currency)} — {a.status.label}</span>
             </div>
@@ -73,19 +71,22 @@ export default function Dashboard() {
       )}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {cards.map(c => (
-          <div key={c.label} className={`card-hover bg-card border border-border rounded-xl p-4 cursor-default ${c.accent}`}>
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">{c.label}</p>
-              <c.icon className="text-lg" />
+        {cards.map(c => {
+          const Icon = c.icon;
+          return (
+            <div key={c.label} className={`card-hover bg-card border border-border rounded-xl p-4 cursor-default ${c.accent}`}>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">{c.label}</p>
+                <Icon size={20} className="text-muted-foreground" />
+              </div>
+              <p className="text-2xl font-bold text-foreground">{c.value}</p>
             </div>
-            <p className="text-2xl font-bold text-foreground">{c.value}</p>
-          </div>
-        ))}
+          );
+        })}
         <div className="card-hover bg-card border border-border rounded-xl p-4 cursor-default border-l-4 border-l-purple-500">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Top Category</p>
-            <MdEmojiEvents className="text-lg" />
+            <Trophy size={20} className="text-muted-foreground" />
           </div>
           <p className="text-xl font-bold text-foreground">
             {summary.topCategory ? summary.topCategory.name : '—'}
@@ -104,7 +105,7 @@ export default function Dashboard() {
       </div>
       {transactions.length === 0 ? (
         <div className="text-center py-12 bg-card border border-border rounded-xl">
-          <MdInbox className="text-4xl mb-3 mx-auto" />
+          <Inbox size={40} className="mx-auto mb-3 text-muted-foreground opacity-50" />
           <p className="text-sm text-muted-foreground">No transactions yet. Click + to add one!</p>
         </div>
       ) : (
@@ -112,14 +113,14 @@ export default function Dashboard() {
           {transactions.slice(0, 5).map(t => (
             <div key={t.id} className="card-hover flex justify-between items-center bg-card border border-border rounded-xl p-3.5 cursor-default">
               <div className="flex items-center gap-3">
-                <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-medium ${
+                <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${
                   t.type === 'income' ? 'bg-income/10 text-income' : 'bg-expense/10 text-expense'
                 }`}>
-                  {t.type === 'income' ? <MdArrowUpward /> : <MdArrowDownward />}
+                  {t.type === 'income' ? <ArrowUpRight size={18} /> : <ArrowDownRight size={18} />}
                 </div>
                 <div>
                   <p className="text-sm font-medium text-foreground">{t.category}</p>
-                  <p className="text-xs text-muted-foreground">{t.date}</p>
+                  <p className="text-xs text-muted-foreground">{formatDateDDMMYY(t.date)}</p>
                 </div>
               </div>
               <span className={`font-bold text-sm ${t.type === 'income' ? 'text-income' : 'text-expense'}`}>
