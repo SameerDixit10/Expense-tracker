@@ -19,6 +19,8 @@ export function ExpenseProvider({ children }) {
         currency: state.currency,
         dispatch,
         summary,
+        expenseCategories: state.expenseCategories,
+        incomeCategories: state.incomeCategories,
       }}
     >
       {children}

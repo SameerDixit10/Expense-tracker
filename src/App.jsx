@@ -12,9 +12,9 @@ export default function App() {
   return (
     <ExpenseProvider>
       <BrowserRouter>
-        <div className="flex min-h-screen bg-background">
+        <div className="min-h-screen bg-background">
           <Sidebar />
-          <main className="flex-1 p-5 pt-16 md:pt-5">
+          <main className="pt-16 p-5">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/transactions" element={<Transactions />} />
