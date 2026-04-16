@@ -28,6 +28,7 @@ export default function TransactionFilters({ filters, setFilters }) {
         value={filters.category}
         onChange={e => setFilters({ ...filters, category: e.target.value })}
         className={selectClass}
+        key={allCategories.length}
       >
         <option value="">All Categories</option>
         {allCategories.map(c => (

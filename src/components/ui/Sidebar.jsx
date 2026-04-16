@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import {
   LayoutDashboard, CreditCard, BarChart3, Target, Settings,
-  Sun, Moon, Menu, X
+  Sun, Moon, Menu, X, Wallet
 } from 'lucide-react';
 
 export default function Sidebar() {
@@ -36,8 +36,8 @@ export default function Sidebar() {
 
   const logo = (
     <div className="flex items-center gap-2.5 mb-8 px-1">
-      <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-primary-foreground text-sm font-bold shadow-sm">
-        E
+      <div className="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center text-primary-foreground shadow-sm ring-1 ring-white/20">
+        <Wallet size={18} />
       </div>
       <div>
         <h1 className="text-base font-bold text-foreground leading-tight">ExpenseTracker</h1>
@@ -77,7 +77,9 @@ export default function Sidebar() {
       {/* Top bar with menu trigger */}
       <div className="fixed top-0 left-0 right-0 bg-card/80 backdrop-blur-sm border-b border-border z-30 px-4 py-3 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center text-primary-foreground text-xs font-bold">E</div>
+          <div className="w-7 h-7 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center text-primary-foreground shadow-sm ring-1 ring-white/20">
+            <Wallet size={14} />
+          </div>
           <span className="font-bold text-foreground text-sm">ExpenseTracker</span>
         </div>
         <div className="flex items-center gap-2">

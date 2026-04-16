@@ -97,7 +97,7 @@ export default function TransactionModal({ isOpen, onClose, editTransaction }) {
 
         <div>
           <label className="text-sm text-muted-foreground mb-1 block">Category</label>
-          <select value={category} onChange={e => setCategory(e.target.value)} className={inputClass}>
+          <select value={category} onChange={e => setCategory(e.target.value)} className={inputClass} key={`${type}-${categories.length}`}>
             <option value="">Select category</option>
             {categories.map(c => <option key={c} value={c}>{c}</option>)}
           </select>

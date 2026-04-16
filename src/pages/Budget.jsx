@@ -42,6 +42,7 @@ export default function Budget() {
             value={selectedCat}
             onChange={e => setSelectedCat(e.target.value)}
             className="border border-border rounded px-3 py-2 text-sm bg-card text-foreground flex-1 min-w-[140px] outline-none focus:border-primary"
+            key={expenseCategories.length}
           >
             <option value="">Pick category</option>
             {expenseCategories.map(c => (

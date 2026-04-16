@@ -1,6 +1,4 @@
-import {
-  AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend,
-} from 'recharts';
+import {AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend,} from 'recharts';
 import { useExpense } from '../../context/ExpenseContext';
 
 export default function AreaChartComp() {
