@@ -1,30 +1,5 @@
 export const initialState = {
-  transactions: JSON.parse(localStorage.getItem('transactions') || JSON.stringify([
-    {
-      id: '1',
-      type: 'expense',
-      amount: 50,
-      category: 'Food',
-      date: '2024-01-15',
-      note: 'Lunch at restaurant'
-    },
-    {
-      id: '2',
-      type: 'income',
-      amount: 2000,
-      category: 'Salary',
-      date: '2024-01-01',
-      note: 'Monthly salary'
-    },
-    {
-      id: '3',
-      type: 'expense',
-      amount: 25,
-      category: 'Transportation',
-      date: '2024-01-14',
-      note: 'Bus fare'
-    }
-  ])),
+  transactions: JSON.parse(localStorage.getItem('transactions') || '[]'),
   budgets: JSON.parse(localStorage.getItem('budgets') || '{}'),
   currency: localStorage.getItem('currency') || 'USD',
 };
