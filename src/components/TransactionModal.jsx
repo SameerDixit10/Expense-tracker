@@ -16,23 +16,20 @@ export default function TransactionModal({ isOpen, onClose, editTransaction }) {
 
   useEffect(() => {
     if (editTransaction) {
-      setTimeout(() => {
-        setType(editTransaction.type);
-        setAmount(editTransaction.amount.toString());
-        setCategory(editTransaction.category);
-        setDate(editTransaction.date);
-        setNote(editTransaction.note || '');
-      }, 0);
+      setType(editTransaction.type);
+      setAmount(editTransaction.amount.toString());
+      setCategory(editTransaction.category);
+      setDate(editTransaction.date);
+      setNote(editTransaction.note || '');
     } else {
-      setTimeout(() => {
-        setType('expense');
-        setAmount('');
-        setCategory('');
-        setDate(new Date().toISOString().split('T')[0]);
-        setNote('');
-      }, 0);
+      setType('expense');
+      setAmount('');
+      setCategory('');
+      setDate(new Date().toISOString().split('T')[0]);
+      setNote('');
     }
-  }, [editTransaction]);
+    setErrors({});
+  }, [editTransaction, isOpen]);
 
   const categories = type === 'expense' ? expenseCategories : incomeCategories;
 

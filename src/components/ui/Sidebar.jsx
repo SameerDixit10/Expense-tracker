@@ -5,7 +5,7 @@ import {
   Sun, Moon, Menu, X
 } from 'lucide-react';
 
-export default function Sidebar({ isOpen, setIsOpen }) {
+export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dark, setDark] = useState(() => localStorage.getItem('theme') === 'dark');
 
@@ -22,6 +22,9 @@ export default function Sidebar({ isOpen, setIsOpen }) {
   const links = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/transactions', label: 'Transactions', icon: CreditCard },
+    { to: '/analytics', label: 'Analytics', icon: BarChart3 },
+    { to: '/budget', label: 'Budgets', icon: Target },
+    { to: '/settings', label: 'Settings', icon: Settings },
   ];
 
   const linkClass = ({ isActive }) =>
@@ -30,11 +33,6 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         ? 'bg-primary text-primary-foreground font-medium shadow-sm'
         : 'text-muted-foreground hover:bg-accent hover:text-foreground'
     }`;
-
-  const handleNavClick = () => {
-    setIsOpen(false); // Close sidebar when navigating
-    setMobileOpen(false); // Also close mobile sidebar
-  };
 
   const logo = (
     <div className="flex items-center gap-2.5 mb-8 px-1">
@@ -55,7 +53,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         {links.map(link => {
           const Icon = link.icon;
           return (
-            <NavLink key={link.to} to={link.to} end={link.to === '/'} className={linkClass} onClick={handleNavClick}>
+            <NavLink key={link.to} to={link.to} end={link.to === '/'} className={linkClass} onClick={() => setMobileOpen(false)}>
               <Icon size={18} />
               {link.label}
             </NavLink>
@@ -76,8 +74,8 @@ export default function Sidebar({ isOpen, setIsOpen }) {
 
   return (
     <>
-      {/* Top bar with menu trigger - only on mobile */}
-      <div className="fixed top-0 left-0 right-0 bg-card/80 backdrop-blur-sm border-b border-border z-30 px-4 py-3 flex justify-between items-center md:hidden">
+      {/* Top bar with menu trigger */}
+      <div className="fixed top-0 left-0 right-0 bg-card/80 backdrop-blur-sm border-b border-border z-30 px-4 py-3 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center text-primary-foreground text-xs font-bold">E</div>
           <span className="font-bold text-foreground text-sm">ExpenseTracker</span>
@@ -92,34 +90,12 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         </div>
       </div>
 
-      {/* Hamburger menu button for desktop when sidebar is closed */}
-      {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="fixed top-4 left-4 z-40 hidden md:block bg-card border border-border rounded-lg p-2 shadow-sm hover:bg-accent transition-all"
-        >
-          <Menu size={20} />
-        </button>
-      )}
-
-      {/* Desktop sidebar - conditionally visible */}
-      {isOpen && (
-        <div className="hidden md:flex md:w-64 md:flex-col md:bg-card md:border-r md:border-border md:p-4 md:fixed md:left-0 md:top-0 md:h-full md:z-20">
-          <button onClick={() => setIsOpen(false)} className="self-end p-1 rounded hover:bg-accent mb-2">
-            <X size={16} />
-          </button>
-          {sidebarContent}
-        </div>
-      )}
-
-      {/* Mobile overlay */}
+      {/* Slide-in overlay sidebar */}
       {mobileOpen && (
-        <div className="fixed inset-0 bg-black/40 z-40 transition-opacity md:hidden" onClick={() => setMobileOpen(false)} />
+        <div className="fixed inset-0 bg-black/40 z-40 transition-opacity" onClick={() => setMobileOpen(false)} />
       )}
-
-      {/* Mobile sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-card border-r border-border z-50 p-4 flex flex-col transform transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed top-0 left-0 h-full w-64 bg-card border-r border-border z-50 p-4 flex flex-col transform transition-transform duration-300 ease-in-out ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
